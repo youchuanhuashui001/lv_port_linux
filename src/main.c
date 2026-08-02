@@ -186,6 +186,7 @@ int main(int argc, char ** argv)
     lv_obj_t * label = lv_label_create(lv_screen_active());
     lv_label_set_text_static(label, "Demos not enabled, create your own ui in `src/main.c`");
     lv_obj_center(label);
+    mp3_player_init();
 #endif /*LV_BUILD_DEMOS*/
 
     /* Enter the run loop of the selected backend */

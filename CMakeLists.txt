@@ -75,7 +75,13 @@ list(APPEND LIBS lvgl::examples)
 endif()
 
 target_link_libraries(lvgl_linux PUBLIC ${LIBS})
-add_executable(lvglsim src/main.c)
+add_executable(lvglsim
+    example/mp3_player/main.c
+    example/mp3_player/page_manager.c
+    example/mp3_player/pages/page_main.c
+    example/mp3_player/pages/page_player.c
+)
+target_include_directories(lvglsim PUBLIC example/mp3_player)
 target_link_libraries(lvglsim PUBLIC lvgl_linux ${EXTRA_LIBS})
 
 if(WERROR)
