@@ -90,6 +90,20 @@ target_include_directories(lvglsim PUBLIC
 )
 target_link_libraries(lvglsim PUBLIC lvgl_linux ${EXTRA_LIBS})
 
+# The mp3 player uses SDL audio directly on the simulator; the lvgl
+# target links SDL2 PRIVATE so pull it in explicitly here.
+if(CONFIG_LV_USE_SDL)
+	find_package(SDL2 QUIET CONFIG)
+	if(NOT SDL2_FOUND)
+		find_package(SDL2 QUIET MODULE)
+	endif()
+	if(TARGET SDL2::SDL2)
+		target_link_libraries(lvglsim PUBLIC SDL2::SDL2)
+	else()
+		message(FATAL_ERROR "SDL2 required by the mp3 player but not found")
+	endif()
+endif()
+
 if(WERROR)
     target_compile_options(lvglsim PRIVATE -Werror)
     target_compile_options(lvgl PRIVATE -Werror)

@@ -7,12 +7,20 @@
 #include <lvgl/simulator_settings.h>
 
 #include "ui/ui.h"
-#include "backend/player_logic.h"
+#include "backend/ui_bridge.h"
 
 extern simulator_settings_t settings;
 
+/* Directory scanned for *.mp3 files; override with LV_MUSIC_DIR. */
+#define MUSIC_DIR_DEFAULT "/home/tanxzh/Music"
+
 int main(int argc, char **argv)
 {
+	const char *music_dir;
+
+	(void)argc;
+	(void)argv;
+
 	/* Initialize LVGL. */
 	lv_init();
 
@@ -28,8 +36,13 @@ int main(int argc, char **argv)
 
 	printf("LVGL backend initialized.\n");
 
-	/* 初始化 SquareLine Studio 导出的 UI */
+	/* Initialize SquareLine Studio exported UI */
 	ui_init();
+
+	/* Wire UI to the playback engine and start scanning the library. */
+	music_dir = getenv("LV_MUSIC_DIR");
+	if (music_dir == NULL) music_dir = MUSIC_DIR_DEFAULT;
+	ui_bridge_init(music_dir);
 
 	/* Enter the run loop - does not return */
 	driver_backends_run_loop();
