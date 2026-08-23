@@ -1,5 +1,9 @@
-.config 
+.config
 .config.old
 build/
+build-*/
 .deps
 env
+.cache/
+.marscode/
+tmp/
