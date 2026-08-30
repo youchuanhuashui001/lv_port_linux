@@ -31,15 +31,6 @@ void ui_event_ContainerAudio(lv_event_t * e)
     }
 }
 
-void ui_event_AudioIcon(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Audio, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Audio_screen_init);
-    }
-}
-
 // build funtions
 
 void ui_Home_screen_init(void)
@@ -55,7 +46,7 @@ void ui_Home_screen_init(void)
     lv_obj_set_x(ui_ContainerAudio, -320);
     lv_obj_set_y(ui_ContainerAudio, -140);
     lv_obj_set_align(ui_ContainerAudio, LV_ALIGN_CENTER);
-    lv_obj_remove_flag(ui_ContainerAudio, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_remove_flag(ui_ContainerAudio, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_AudioIcon = lv_image_create(ui_ContainerAudio);
     lv_image_set_src(ui_AudioIcon, &ui_img_audio_icon_png);
@@ -64,7 +55,6 @@ void ui_Home_screen_init(void)
     lv_obj_set_x(ui_AudioIcon, 0);
     lv_obj_set_y(ui_AudioIcon, -10);
     lv_obj_set_align(ui_AudioIcon, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_AudioIcon, LV_OBJ_FLAG_CLICKABLE);     /// Flags
     lv_obj_remove_flag(ui_AudioIcon, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_AudioLabel = lv_label_create(ui_ContainerAudio);
@@ -189,7 +179,6 @@ void ui_Home_screen_init(void)
     lv_obj_set_style_text_color(ui_SetupLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_SetupLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_AudioIcon, ui_event_AudioIcon, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ContainerAudio, ui_event_ContainerAudio, LV_EVENT_ALL, NULL);
 
 }

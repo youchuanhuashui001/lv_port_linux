@@ -7,3 +7,4 @@ env
 .cache/
 .marscode/
 tmp/
+example/mp3_player/doc/.obsidian

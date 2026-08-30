@@ -16,7 +16,6 @@ extern void ui_Home_screen_destroy(void);
 extern lv_obj_t * ui_Home;
 extern void ui_event_ContainerAudio(lv_event_t * e);
 extern lv_obj_t * ui_ContainerAudio;
-extern void ui_event_AudioIcon(lv_event_t * e);
 extern lv_obj_t * ui_AudioIcon;
 extern lv_obj_t * ui_AudioLabel;
 extern lv_obj_t * ui_ContainerBook;
