@@ -14,12 +14,12 @@ lv_obj_t * ui_AudioCurrentTimeLabel = NULL;
 lv_obj_t * ui_AudioTotalTimeLabel = NULL;
 lv_obj_t * ui_AudioPlaylistButton = NULL;
 lv_obj_t * ui_AudioPlaylistLabel = NULL;
+lv_obj_t * ui_AudioLRCPanel = NULL;
 lv_obj_t * ui_AudioPlaylistPanel = NULL;
 lv_obj_t * ui_AudioPlaylistSubPanel = NULL;
 lv_obj_t * ui_AudioPlaylistNameLabel = NULL;
 lv_obj_t * ui_AudioPlaylistsongerLabel = NULL;
 lv_obj_t * ui_AudioPlaylistTimeLabel = NULL;
-lv_obj_t * ui_AudioLRCPanel = NULL;
 lv_obj_t * ui_AudioPlayButton = NULL;
 lv_obj_t * ui_AudioPauseButton = NULL;
 lv_obj_t * ui_AudioPreButton = NULL;
@@ -32,15 +32,6 @@ void ui_event_AudioPlaylistButton(lv_event_t * e)
 
     if(event_code == LV_EVENT_CLICKED) {
         _ui_flag_modify(ui_AudioPlaylistPanel, LV_OBJ_FLAG_HIDDEN, _UI_MODIFY_FLAG_TOGGLE);
-    }
-}
-
-void ui_event_AudioPlaylistSubPanel(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_CLICKED) {
-        on_track_item_clicked(e);
     }
 }
 
@@ -168,11 +159,22 @@ void ui_Audio_screen_init(void)
     lv_obj_set_align(ui_AudioPlaylistLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_AudioPlaylistLabel, "list");
 
+    ui_AudioLRCPanel = lv_obj_create(ui_Audio);
+    lv_obj_set_width(ui_AudioLRCPanel, 386);
+    lv_obj_set_height(ui_AudioLRCPanel, 266);
+    lv_obj_set_x(ui_AudioLRCPanel, 192);
+    lv_obj_set_y(ui_AudioLRCPanel, -42);
+    lv_obj_set_align(ui_AudioLRCPanel, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_AudioLRCPanel, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_AudioLRCPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
+    lv_obj_remove_flag(ui_AudioLRCPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_scrollbar_mode(ui_AudioLRCPanel, LV_SCROLLBAR_MODE_OFF);
+
     ui_AudioPlaylistPanel = lv_obj_create(ui_Audio);
-    lv_obj_set_width(ui_AudioPlaylistPanel, 700);
+    lv_obj_set_width(ui_AudioPlaylistPanel, 793);
     lv_obj_set_height(ui_AudioPlaylistPanel, 330);
-    lv_obj_set_x(ui_AudioPlaylistPanel, 0);
-    lv_obj_set_y(ui_AudioPlaylistPanel, -40);
+    lv_obj_set_x(ui_AudioPlaylistPanel, 5);
+    lv_obj_set_y(ui_AudioPlaylistPanel, -43);
     lv_obj_set_align(ui_AudioPlaylistPanel, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_AudioPlaylistPanel, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_AudioPlaylistPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
@@ -182,45 +184,34 @@ void ui_Audio_screen_init(void)
     lv_obj_set_scroll_snap_x(ui_AudioPlaylistPanel, LV_SCROLL_SNAP_CENTER);
 
     ui_AudioPlaylistSubPanel = lv_obj_create(ui_AudioPlaylistPanel);
-    lv_obj_set_width(ui_AudioPlaylistSubPanel, 668);
+    lv_obj_set_width(ui_AudioPlaylistSubPanel, 744);
     lv_obj_set_height(ui_AudioPlaylistSubPanel, 40);
     lv_obj_set_align(ui_AudioPlaylistSubPanel, LV_ALIGN_CENTER);
     lv_obj_remove_flag(ui_AudioPlaylistSubPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_AudioPlaylistNameLabel = lv_label_create(ui_AudioPlaylistSubPanel);
-    lv_obj_set_width(ui_AudioPlaylistNameLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_AudioPlaylistNameLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_width(ui_AudioPlaylistNameLabel, 200);
+    lv_obj_set_height(ui_AudioPlaylistNameLabel, 20);
     lv_obj_set_x(ui_AudioPlaylistNameLabel, -307);
     lv_obj_set_y(ui_AudioPlaylistNameLabel, 0);
     lv_obj_set_align(ui_AudioPlaylistNameLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_AudioPlaylistNameLabel, "name");
 
     ui_AudioPlaylistsongerLabel = lv_label_create(ui_AudioPlaylistSubPanel);
-    lv_obj_set_width(ui_AudioPlaylistsongerLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_AudioPlaylistsongerLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_width(ui_AudioPlaylistsongerLabel, 200);
+    lv_obj_set_height(ui_AudioPlaylistsongerLabel, 20);
     lv_obj_set_x(ui_AudioPlaylistsongerLabel, -22);
     lv_obj_set_y(ui_AudioPlaylistsongerLabel, 0);
     lv_obj_set_align(ui_AudioPlaylistsongerLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_AudioPlaylistsongerLabel, "songer");
 
     ui_AudioPlaylistTimeLabel = lv_label_create(ui_AudioPlaylistSubPanel);
-    lv_obj_set_width(ui_AudioPlaylistTimeLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_AudioPlaylistTimeLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_width(ui_AudioPlaylistTimeLabel, 200);
+    lv_obj_set_height(ui_AudioPlaylistTimeLabel, 20);
     lv_obj_set_x(ui_AudioPlaylistTimeLabel, 211);
     lv_obj_set_y(ui_AudioPlaylistTimeLabel, 0);
     lv_obj_set_align(ui_AudioPlaylistTimeLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_AudioPlaylistTimeLabel, "time");
-
-    ui_AudioLRCPanel = lv_obj_create(ui_Audio);
-    lv_obj_set_width(ui_AudioLRCPanel, 386);
-    lv_obj_set_height(ui_AudioLRCPanel, 266);
-    lv_obj_set_x(ui_AudioLRCPanel, 181);
-    lv_obj_set_y(ui_AudioLRCPanel, -33);
-    lv_obj_set_align(ui_AudioLRCPanel, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_AudioLRCPanel, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(ui_AudioLRCPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-    lv_obj_remove_flag(ui_AudioLRCPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_scrollbar_mode(ui_AudioLRCPanel, LV_SCROLLBAR_MODE_OFF);
 
     ui_AudioPlayButton = lv_image_create(ui_Audio);
     lv_image_set_src(ui_AudioPlayButton, &ui_img_play_png);
@@ -275,7 +266,6 @@ void ui_Audio_screen_init(void)
     lv_obj_remove_flag(ui_AudioToHomeButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     lv_obj_add_event_cb(ui_AudioPlaylistButton, ui_event_AudioPlaylistButton, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_AudioPlaylistSubPanel, ui_event_AudioPlaylistSubPanel, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_AudioPlayButton, ui_event_AudioPlayButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_AudioPauseButton, ui_event_AudioPauseButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_AudioPreButton, ui_event_AudioPreButton, LV_EVENT_ALL, NULL);
@@ -298,12 +288,12 @@ void ui_Audio_screen_destroy(void)
     ui_AudioTotalTimeLabel = NULL;
     ui_AudioPlaylistButton = NULL;
     ui_AudioPlaylistLabel = NULL;
+    ui_AudioLRCPanel = NULL;
     ui_AudioPlaylistPanel = NULL;
     ui_AudioPlaylistSubPanel = NULL;
     ui_AudioPlaylistNameLabel = NULL;
     ui_AudioPlaylistsongerLabel = NULL;
     ui_AudioPlaylistTimeLabel = NULL;
-    ui_AudioLRCPanel = NULL;
     ui_AudioPlayButton = NULL;
     ui_AudioPauseButton = NULL;
     ui_AudioPreButton = NULL;

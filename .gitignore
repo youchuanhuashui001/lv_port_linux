@@ -8,3 +8,7 @@ env
 .marscode/
 tmp/
 example/mp3_player/doc/.obsidian
+example/mp3_player/SquareLine/backup/
+example/mp3_player/SquareLine/cache/
+example/mp3_player/SquareLine/boards/
+example/mp3_player/SquareLine/examples/

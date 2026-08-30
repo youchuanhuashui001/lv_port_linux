@@ -10,7 +10,6 @@
 extern "C" {
 #endif
 
-void on_track_item_clicked(lv_event_t * e);
 void AudioPlayToPause(lv_event_t * e);
 void AudioPauseToPlay(lv_event_t * e);
 void AudioPreMusic(lv_event_t * e);

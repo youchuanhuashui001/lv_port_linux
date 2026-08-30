@@ -3,7 +3,6 @@ SET(SOURCES screens/ui_Home.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
-    ui_events.c
     images/ui_img_background_png.c
     images/ui_img_audio_icon_png.c
     images/ui_img_book_icon_png.c

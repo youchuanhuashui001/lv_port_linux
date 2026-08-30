@@ -33,9 +33,32 @@ static void fmt_time(char *buf, size_t cap, uint32_t ms)
 
 static void row_click_cb(lv_event_t *e)
 {
-	lv_obj_t *row = lv_event_get_current_target(e);
-	intptr_t idx = (intptr_t)lv_obj_get_user_data(row);
+	intptr_t idx = (intptr_t)lv_event_get_user_data(e);
 	player_logic_select((int)idx);
+}
+
+void AudioPlayToPause(lv_event_t *e)
+{
+	(void)e;
+	player_logic_toggle_play();
+}
+
+void AudioPauseToPlay(lv_event_t *e)
+{
+	(void)e;
+	player_logic_toggle_play();
+}
+
+void AudioPreMusic(lv_event_t *e)
+{
+	(void)e;
+	player_logic_prev_track();
+}
+
+void AudioNextMusic(lv_event_t *e)
+{
+	(void)e;
+	player_logic_next_track();
 }
 
 static lv_obj_t *make_row(int index, const char *name, const char *songer,
@@ -44,6 +67,7 @@ static lv_obj_t *make_row(int index, const char *name, const char *songer,
 	lv_obj_t *row = lv_obj_create(ui_AudioPlaylistPanel);
 	lv_obj_set_size(row, ROW_W, ROW_H);
 	lv_obj_set_align(row, LV_ALIGN_CENTER);
+	lv_obj_set_clickable(row, true);
 	lv_obj_remove_flag(row, LV_OBJ_FLAG_SCROLLABLE);
 
 	lv_obj_t *l_name = lv_label_create(row);
@@ -151,5 +175,6 @@ void ui_bridge_init(const char *music_dir)
 	int count = player_logic_init(music_dir, ui_bridge_on_status, NULL);
 
 	build_playlist(count > 0 ? count : 0);
+	if(count > 0) player_logic_select(0);
 	update_transport_icons(PL_STOPPED);
 }
