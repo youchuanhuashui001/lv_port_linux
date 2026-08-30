@@ -179,9 +179,7 @@ void ui_Audio_screen_init(void)
     lv_obj_set_flex_flow(ui_AudioPlaylistPanel, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_AudioPlaylistPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
     lv_obj_add_flag(ui_AudioPlaylistPanel, LV_OBJ_FLAG_HIDDEN);     /// Flags
-    lv_obj_remove_flag(ui_AudioPlaylistPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_scroll_dir(ui_AudioPlaylistPanel, LV_DIR_HOR);
-    lv_obj_set_scroll_snap_x(ui_AudioPlaylistPanel, LV_SCROLL_SNAP_CENTER);
+    lv_obj_set_scroll_dir(ui_AudioPlaylistPanel, LV_DIR_VER);
 
     ui_AudioPlaylistSubPanel = lv_obj_create(ui_AudioPlaylistPanel);
     lv_obj_set_width(ui_AudioPlaylistSubPanel, 744);

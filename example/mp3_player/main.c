@@ -12,7 +12,7 @@
 extern simulator_settings_t settings;
 
 /* Directory scanned for *.mp3 files; override with LV_MUSIC_DIR. */
-#define MUSIC_DIR_DEFAULT "/home/tanxzh/Music"
+#define MUSIC_DIR_DEFAULT "/opt/nfs/resources/audio"
 
 int main(int argc, char **argv)
 {

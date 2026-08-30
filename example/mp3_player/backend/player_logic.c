@@ -64,6 +64,7 @@ static void close_decoder(void);
 static void report_status(void);
 static void start_track(int index, bool play);
 static bool open_current_stream(void);
+static uint32_t probe_duration(const char *native);
 
 /* ------------------------------------------------------------------ */
 /* Library scanning                                                    */
@@ -132,6 +133,7 @@ static int scan_library(const char *music_dir)
 		   t->title[0] == '\0') {
 			derive_title_from_name(t);
 		}
+		t->duration_ms = probe_duration(t->native);
 
 		track_count++;
 	}
@@ -182,6 +184,30 @@ static uint32_t estimate_duration(const char *native, int avg_kbps)
 	return (uint32_t)(bits / (uint64_t)avg_kbps);
 }
 
+static uint32_t duration_from_decoder(const mp3dec_ex_t *decoder,
+	                                    const char *native)
+{
+	uint64_t samples = decoder->samples;
+	uint64_t samples_per_second = (uint64_t)decoder->info.channels *
+	                              (uint64_t)decoder->info.hz;
+
+	if(samples > 0 && samples_per_second > 0)
+		return (uint32_t)(samples * 1000u / samples_per_second);
+
+	return estimate_duration(native, decoder->info.bitrate_kbps);
+}
+
+static uint32_t probe_duration(const char *native)
+{
+	mp3dec_ex_t probe;
+	uint32_t duration;
+
+	if(mp3dec_ex_open(&probe, native, MP3D_DO_NOT_SCAN) != 0) return 0;
+	duration = duration_from_decoder(&probe, native);
+	mp3dec_ex_close(&probe);
+	return duration;
+}
+
 static bool open_current_stream(void)
 {
 	static lv_fs_file_t f;
@@ -215,8 +241,7 @@ static bool open_current_stream(void)
 
 	audio_out_open(stream_hz, stream_ch);
 
-	tracks[cur].duration_ms =
-	    estimate_duration(tracks[cur].native, dec.info.bitrate_kbps);
+	tracks[cur].duration_ms = duration_from_decoder(&dec, tracks[cur].native);
 
 	return true;
 }

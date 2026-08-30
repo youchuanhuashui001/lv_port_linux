@@ -14,12 +14,23 @@
 #define ROW_W   668
 #define ROW_H   40
 /* label x offsets inside a row, relative to row center */
-#define COL_NAME_X   (-307)
+#define COL_NAME_X   (-234) /* keep the 200px name column inside the 668px row */
 #define COL_SONGER_X (-22)
 #define COL_TIME_X   (211)
+#define COL_TEXT_W   200
+#define METADATA_FONT_PATH "A:lvgl/scripts/built_in_font/SourceHanSansSC-Normal.otf"
 
 static lv_obj_t **rows;
 static int32_t row_count;
+static lv_font_t *metadata_font;
+
+static const lv_font_t *get_metadata_font(void)
+{
+	if(metadata_font == NULL)
+		metadata_font = lv_tiny_ttf_create_file(METADATA_FONT_PATH, 16);
+
+	return metadata_font ? metadata_font : &lv_font_source_han_sans_sc_16_cjk;
+}
 
 static void fmt_time(char *buf, size_t cap, uint32_t ms)
 {
@@ -35,6 +46,7 @@ static void row_click_cb(lv_event_t *e)
 {
 	intptr_t idx = (intptr_t)lv_event_get_user_data(e);
 	player_logic_select((int)idx);
+	lv_obj_add_flag(ui_AudioPlaylistPanel, LV_OBJ_FLAG_HIDDEN);
 }
 
 void AudioPlayToPause(lv_event_t *e)
@@ -65,6 +77,7 @@ static lv_obj_t *make_row(int index, const char *name, const char *songer,
                           uint32_t duration_ms)
 {
 	lv_obj_t *row = lv_obj_create(ui_AudioPlaylistPanel);
+	const lv_font_t *font = get_metadata_font();
 	lv_obj_set_size(row, ROW_W, ROW_H);
 	lv_obj_set_align(row, LV_ALIGN_CENTER);
 	lv_obj_set_clickable(row, true);
@@ -74,7 +87,9 @@ static lv_obj_t *make_row(int index, const char *name, const char *songer,
 	lv_obj_set_x(l_name, COL_NAME_X);
 	lv_obj_set_y(l_name, 0);
 	lv_obj_set_align(l_name, LV_ALIGN_CENTER);
-	lv_obj_set_style_text_font(l_name, &lv_font_source_han_sans_sc_16_cjk,
+	lv_obj_set_width(l_name, COL_TEXT_W);
+	lv_label_set_long_mode(l_name, LV_LABEL_LONG_DOT);
+	lv_obj_set_style_text_font(l_name, font,
 	                           LV_PART_MAIN | LV_STATE_DEFAULT);
 	lv_label_set_text(l_name, name);
 
@@ -82,7 +97,9 @@ static lv_obj_t *make_row(int index, const char *name, const char *songer,
 	lv_obj_set_x(l_songer, COL_SONGER_X);
 	lv_obj_set_y(l_songer, 0);
 	lv_obj_set_align(l_songer, LV_ALIGN_CENTER);
-	lv_obj_set_style_text_font(l_songer, &lv_font_source_han_sans_sc_16_cjk,
+	lv_obj_set_width(l_songer, COL_TEXT_W);
+	lv_label_set_long_mode(l_songer, LV_LABEL_LONG_DOT);
+	lv_obj_set_style_text_font(l_songer, font,
 	                           LV_PART_MAIN | LV_STATE_DEFAULT);
 	lv_label_set_text(l_songer, songer);
 
@@ -141,17 +158,20 @@ static void update_transport_icons(pl_state_t state)
 void ui_bridge_on_status(const pl_status_t *st, void *user_data)
 {
 	char buf[16];
+	const lv_font_t *font = get_metadata_font();
 
 	(void)user_data;
 
 	lv_label_set_text(ui_AudioSongLabel, st->title);
 	lv_label_set_text(ui_AudioSongerLabel, st->artist);
+	lv_label_set_long_mode(ui_AudioSongLabel, LV_LABEL_LONG_SCROLL_CIRCULAR);
+	lv_label_set_long_mode(ui_AudioSongerLabel, LV_LABEL_LONG_DOT);
 
 	lv_obj_set_style_text_font(ui_AudioSongLabel,
-	                           &lv_font_source_han_sans_sc_16_cjk,
+	                           font,
 	                           LV_PART_MAIN | LV_STATE_DEFAULT);
 	lv_obj_set_style_text_font(ui_AudioSongerLabel,
-	                           &lv_font_source_han_sans_sc_16_cjk,
+	                           font,
 	                           LV_PART_MAIN | LV_STATE_DEFAULT);
 
 	lv_bar_set_range(ui_AudioPlayBar, 0, (int32_t)st->duration_ms);

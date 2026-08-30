@@ -134,6 +134,24 @@ flowchart TD
 
 ## ui_init
 
+```
+AudioPlayToPause:
+AudioPauseToPlay:
+
+   start_track(int index, bool play);
+      close_decoder();
+      lv_fs_open
+      audio_out_open
+      tracks[cur].duration_ms = read_file
+      SDL_PauseAudioDevice(dev, 1/0);
+      report_status(); // reflush ui
+
+
+AudioPreMusic:
+AudioNextMusic:
+   start_track(cur-1 or cur+1, true);
+```
+
 ## ui_bridge_init
 ```
 player_logic_init()

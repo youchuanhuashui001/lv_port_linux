@@ -4600,12 +4600,6 @@
                 "InheritedType": 1
               },
               {
-                "nid": 230,
-                "strtype": "OBJECT/Scrollable",
-                "strval": "False",
-                "InheritedType": 2
-              },
-              {
                 "nid": 300,
                 "strtype": "OBJECT/Scrollbar_mode",
                 "strval": "AUTO",
@@ -4614,13 +4608,13 @@
               {
                 "nid": 310,
                 "strtype": "OBJECT/Scroll_direction",
-                "strval": "HOR",
+                "strval": "VER",
                 "InheritedType": 3
               },
               {
                 "nid": 314,
                 "strtype": "OBJECT/Scroll_snap_x",
-                "strval": "CENTER",
+                "strval": "NONE",
                 "InheritedType": 3
               },
               {
@@ -5964,7 +5958,7 @@
     "separate_screen_save": false,
     "hierarchy_state_save": false,
     "reverse_event_order": false,
-    "backup_cnt": 9,
+    "backup_cnt": 10,
     "autosave_cnt": 0,
     "group_color_cnt": 1,
     "imagebytearrayprefix": "",
